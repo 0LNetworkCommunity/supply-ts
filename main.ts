@@ -1,12 +1,15 @@
-import { apiUrl, checkAPIConnectivity  } from "./api"
+import { apiUrl, checkAPIConnectivity } from "./api";
+import { getSupply } from "./supply";
 
 const main = async () => {
-  if (!await checkAPIConnectivity(apiUrl)) {
-    console.log("cannot connect to upstream")
-    process.exit(1)
-  } else {
-    console.log(`connected to ${apiUrl}`)
-  }
-}
+	if (!(await checkAPIConnectivity(apiUrl))) {
+		console.log("cannot connect to upstream");
+		process.exit(1);
+	} else {
+		console.log(`connected to ${apiUrl}`);
+	}
 
-main()
+	console.log(await getSupply());
+};
+
+main();

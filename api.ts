@@ -7,24 +7,22 @@ export const api = axios.create({
 	baseURL: apiUrl,
 });
 
-// export const initApi = async () => {
-//   const { url, note } = await fetchAPIConfig()
-
-//   api = axios.create({
-//     baseURL: url,
-//   })
-//   apiUrl.set(url)
-//   apiUrlNote.set(note)
-
-//   return { apiUrl, note }
-// }
-
 export const checkAPIConnectivity = async (url) => {
 	try {
 		await axios.head(url);
 		return true;
 	} catch (error) {
 		return false;
+	}
+};
+
+export const getIndex = async () => {
+	try {
+		const response = await api.get("");
+		return response.data;
+	} catch (error) {
+		console.error(`Failed to get index: ${error.message}`);
+		throw error;
 	}
 };
 
@@ -41,16 +39,6 @@ export const getAccountResource = async (
 			);
 			throw e;
 		});
-};
-
-export const getIndex = async () => {
-	try {
-		const response = await api.get("");
-		return response.data;
-	} catch (error) {
-		console.error(`Failed to get index: ${error.message}`);
-		throw error;
-	}
 };
 
 export const postViewFunc = async (payload: ViewObj) => {
