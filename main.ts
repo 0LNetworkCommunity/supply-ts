@@ -2,7 +2,9 @@ import { apiUrl, checkAPIConnectivity } from "./src/api";
 import {
 	getSlowList,
 	mapBalancesAccount,
+	mapPledgeAccount,
 	mapSlowListToBalance,
+  reduceBalances,
 } from "./src/slow_wallets";
 import { getSupply } from "./src/supply";
 import fs from "fs";
@@ -18,7 +20,8 @@ const main = async () => {
 	console.log(await getSupply());
 	const slowList = await mapSlowListToBalance();
 
-	const balances = await mapBalancesAccount(slowList);
+	let balances = await mapBalancesAccount(slowList);
+	balances = await mapPledgeAccount(balances);
 
 	// console.log(balances);
 	fs.writeFile("balances.json", JSON.stringify(balances, null, 2), (err) => {
@@ -28,6 +31,16 @@ const main = async () => {
 			console.log("Output written to balances.json");
 		}
 	});
+
+  let summary = reduceBalances(balances);
+
+  fs.writeFile("summary.json", JSON.stringify(summary, null, 2), (err) => {
+    if (err) {
+      console.error("Error writing to file", err);
+    } else {
+      console.log("Output written to summary.json");
+    }
+  });
 };
 
 main();
