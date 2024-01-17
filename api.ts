@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { EventObj, ViewObj } from "./types";
 
-const apiUrl: string = "https://rpc.openlibra.space:8080/v1/";
+export const apiUrl: string = "https://rpc.openlibra.space:8080/v1/";
 
 export const api = axios.create({
 	baseURL: apiUrl,
