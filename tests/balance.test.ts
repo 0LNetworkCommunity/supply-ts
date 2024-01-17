@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
-import { mapBalancesAccount, slowBalanceView, type UserBalance } from "../slow_wallets";
-import { postViewFunc } from "../api";
+import { mapBalancesAccount, slowBalanceView, type UserBalance } from "../src/slow_wallets";
+import { postViewFunc } from "../src/api";
 
 test("balances", async () => {
   const addr = "0x9dd60405e2cc2d17e530c7cfd4d6edf0"

@@ -1,6 +1,6 @@
-import { apiUrl, checkAPIConnectivity } from "./api";
-import { getSlowList, mapBalancesAccount } from "./slow_wallets";
-import { getSupply } from "./supply";
+import { apiUrl, checkAPIConnectivity } from "./src/api";
+import { getSlowList, mapBalancesAccount } from "./src/slow_wallets";
+import { getSupply } from "./src/supply";
 import fs from "fs"
 
 const main = async () => {
