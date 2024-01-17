@@ -29,7 +29,7 @@ const main = async () => {
 	let balances = await mapBalancesAccount(slowList);
 	balances = await mapPledgeAccount(balances);
 
-	let joined = balances.concat(comm_balance);
+  let joined = balances.concat(comm_balance)
 
   const summary = reduceBalances(joined);
 
