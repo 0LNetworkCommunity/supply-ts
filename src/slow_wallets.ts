@@ -134,6 +134,7 @@ export const reduceBalances = (list: UserBalance[]): Summary => {
 		slow_locked: 0,
 		slow_unlocked: 0,
 		pledge: 0,
+    community: 0,
 	};
 
 	for (const el of list) {

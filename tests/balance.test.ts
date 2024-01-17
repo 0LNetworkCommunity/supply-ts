@@ -49,3 +49,11 @@ test("map community", async () => {
 	console.log(n);
 	// expect(n[0].address === "0x407d4d486fdc4e796504135e545be77");
 });
+
+test("get and map community", async () => {
+  const list: UserBalance[] = await mapCommunityListToBalance();
+  const n: UserBalance[] = await mapCommunityBalance(list);
+
+  console.log(n);
+  // expect(n[0].address === "0x407d4d486fdc4e796504135e545be77");
+});
