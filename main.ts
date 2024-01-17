@@ -2,6 +2,8 @@ import { apiUrl, checkAPIConnectivity } from "./src/api";
 import {
 	getSlowList,
 	mapBalancesAccount,
+	mapCommunityBalance,
+	mapCommunityListToBalance,
 	mapPledgeAccount,
 	mapSlowListToBalance,
 	reduceBalances,
@@ -18,10 +20,16 @@ const main = async () => {
 	}
 
 	console.log(await getSupply());
+
+	const communityList = await mapCommunityListToBalance();
+	const comm_balance = await mapCommunityBalance(communityList);
+
 	const slowList = await mapSlowListToBalance();
 
 	let balances = await mapBalancesAccount(slowList);
 	balances = await mapPledgeAccount(balances);
+
+	balances.concat(comm_balance);
 
 	// console.log(balances);
 	fs.writeFile("balances.json", JSON.stringify(balances, null, 2), (err) => {
