@@ -1,23 +1,19 @@
 {
   "name": "supply",
   "module": "index.ts",
-  "type": "module",
-  "scripts": {
-    "start": "ts-node index.ts",
-    "lint": "biome lint . --apply",
-    "format": "biome format . --write && biome lint . --apply"
-  },
   "devDependencies": {
     "@biomejs/biome": "1.5.2",
     "@types/bun": "latest",
-    "install": "^0.13.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+  "scripts": {
+    "start": "bun run main.ts",
+    "lint": "biome lint . --apply",
+    "format": "biome format . --write && biome lint . --apply"
   },
+  "type": "module",
   "dependencies": {
-    "aptos": "^1.21.0"
+    "axios": "^1.6.5"
   }
 }
