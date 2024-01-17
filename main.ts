@@ -4,7 +4,7 @@ import {
 	mapBalancesAccount,
 	mapPledgeAccount,
 	mapSlowListToBalance,
-  reduceBalances,
+	reduceBalances,
 } from "./src/slow_wallets";
 import { getSupply } from "./src/supply";
 import fs from "fs";
@@ -32,15 +32,15 @@ const main = async () => {
 		}
 	});
 
-  let summary = reduceBalances(balances);
+	const summary = reduceBalances(balances);
 
-  fs.writeFile("summary.json", JSON.stringify(summary, null, 2), (err) => {
-    if (err) {
-      console.error("Error writing to file", err);
-    } else {
-      console.log("Output written to summary.json");
-    }
-  });
+	fs.writeFile("summary.json", JSON.stringify(summary, null, 2), (err) => {
+		if (err) {
+			console.error("Error writing to file", err);
+		} else {
+			console.log("Output written to summary.json");
+		}
+	});
 };
 
 main();

@@ -1,6 +1,8 @@
 import { expect, test } from "bun:test";
 import {
 	mapBalancesAccount,
+	mapCommunityBalance,
+	mapCommunityListToBalance,
 	mapPledgeAccount,
 	mapSlowListToBalance,
 	slowBalanceView,
@@ -33,4 +35,17 @@ test("map pledges", async () => {
 test("map format", async () => {
 	const n: UserBalance[] = await mapSlowListToBalance();
 	expect(n[0].address === "0x407d4d486fdc4e796504135e545be77");
+});
+
+test("get community", async () => {
+	const n: UserBalance[] = await mapCommunityListToBalance();
+	console.log(n);
+	// expect(n[0].address === "0x407d4d486fdc4e796504135e545be77");
+});
+
+test("map community", async () => {
+	const user = { address: "0xaad96bbf52fd20ae4aa2e3d8993e6486" };
+	const n: UserBalance[] = await mapCommunityBalance([user]);
+	console.log(n);
+	// expect(n[0].address === "0x407d4d486fdc4e796504135e545be77");
 });

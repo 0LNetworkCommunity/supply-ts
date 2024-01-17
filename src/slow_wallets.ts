@@ -1,4 +1,4 @@
-import { postViewFunc } from "./api";
+import { getAccountResource, postViewFunc } from "./api";
 import type { ViewObj } from "./types";
 
 const SCALING_FACTOR = 1000000;
@@ -6,6 +6,7 @@ export interface Summary {
 	total: number;
 	slow_locked: number;
 	slow_unlocked: number;
+	community: number;
 	pledge: number;
 }
 
@@ -13,6 +14,7 @@ export interface UserBalance {
 	address: string;
 	slow?: SlowWalletBalance;
 	infra?: InfraEscrowBalance;
+	community?: CommunityBalance;
 }
 export interface SlowWalletBalance {
 	unlocked: number;
@@ -20,6 +22,10 @@ export interface SlowWalletBalance {
 }
 
 export interface InfraEscrowBalance {
+	total: number;
+}
+
+export interface CommunityBalance {
 	total: number;
 }
 
@@ -59,6 +65,17 @@ export const mapSlowListToBalance = async (): Promise<UserBalance[]> => {
 	});
 };
 
+export const mapCommunityListToBalance = async (): Promise<UserBalance[]> => {
+	return getAccountResource("0x1", "0x1::donor_voice::Registry").then((res) => {
+		// console.log(res)
+		return res.list.map((el: string) => {
+			return {
+				address: el,
+			};
+		});
+	});
+};
+
 export const mapBalancesAccount = async (
 	list: UserBalance[],
 ): Promise<UserBalance[]> => {
@@ -71,7 +88,7 @@ export const mapBalancesAccount = async (
 		const user = list[idx];
 		user.slow = {
 			unlocked: parseInt(b[0]) / SCALING_FACTOR,
-      total: parseInt(b[1]) / SCALING_FACTOR,
+			total: parseInt(b[1]) / SCALING_FACTOR,
 		};
 		return user;
 	});
@@ -88,7 +105,24 @@ export const mapPledgeAccount = async (
 	return res.map((b, idx) => {
 		const user = list[idx];
 		user.infra = {
-      total: parseInt(b[0]) / SCALING_FACTOR,
+			total: parseInt(b[0]) / SCALING_FACTOR,
+		};
+		return user;
+	});
+};
+
+export const mapCommunityBalance = async (
+	list: UserBalance[],
+): Promise<UserBalance[]> => {
+	const balance_queries = list.map((el) => {
+		return postViewFunc(slowBalanceView(el.address));
+	});
+
+	const res = await Promise.all(balance_queries);
+	return res.map((b, idx) => {
+		const user = list[idx];
+		user.community = {
+			total: parseInt(b[1]) / SCALING_FACTOR,
 		};
 		return user;
 	});
@@ -108,6 +142,7 @@ export const reduceBalances = (list: UserBalance[]): Summary => {
 		sum.slow_unlocked = sum.slow_unlocked + el.slow?.unlocked;
 
 		sum.slow_locked = sum.slow_locked + (el.slow?.total - el.slow?.unlocked);
+		sum.community = sum.community + el.community?.total;
 		sum.total = sum.total + (el.slow?.total + el.infra?.total);
 	}
 
