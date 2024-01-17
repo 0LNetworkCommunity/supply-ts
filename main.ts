@@ -29,7 +29,9 @@ const main = async () => {
 	let balances = await mapBalancesAccount(slowList);
 	balances = await mapPledgeAccount(balances);
 
-	balances.concat(comm_balance);
+	let joined = balances.concat(comm_balance);
+
+  const summary = reduceBalances(joined);
 
 	// console.log(balances);
 	fs.writeFile("balances.json", JSON.stringify(balances, null, 2), (err) => {
@@ -40,7 +42,6 @@ const main = async () => {
 		}
 	});
 
-	const summary = reduceBalances(balances);
 
 	fs.writeFile("summary.json", JSON.stringify(summary, null, 2), (err) => {
 		if (err) {
