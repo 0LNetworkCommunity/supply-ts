@@ -3,15 +3,21 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run index.ts",
+    "start": "ts-node index.ts",
     "lint": "biome lint . --apply",
     "format": "biome format . --write && biome lint . --apply"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.2",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "install": "^0.13.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "aptos": "^1.21.0"
   }
 }
