@@ -2,9 +2,9 @@ import { postViewFunc } from "./api";
 import type { ViewObj } from "./types";
 
 export interface UserBalance {
-  address: string,
-  slow: SlowWalletBalance,
-  infra?: InfraEscrowBalance
+  address: string;
+  slow?: SlowWalletBalance;
+  infra?: InfraEscrowBalance;
 }
 export interface SlowWalletBalance {
   unlocked: number;
@@ -33,22 +33,41 @@ export const getSlowList = async (): Promise<[string]> => {
   return postViewFunc(slowListView).then((res) => res[0]);
 };
 
+export const mapSlowListToBalance = async (): Promise<UserBalance> => {
+  return postViewFunc(slowListView).then((res) => {
+    return res[0].map((el) => {
+      return {
+        address: el,
+      };
+    });
+  });
+};
+
 export const mapBalancesAccount = async (
-  list: string[],
+  list: UserBalance[],
 ): Promise<UserBalance[]> => {
   const balance_queries = list.map((el) => {
-    return postViewFunc(slowBalanceView(el))
-  });
+    let res = postViewFunc(slowBalanceView(el.address));
 
-  let resolved = await Promise.all(balance_queries)
-
-  return resolved.map((res, idx) => {
     return {
-      address: list[idx],
+      address: el.address,
       slow: {
         unlocked: res[0],
         total: res[1],
       }
-    };
-  })
+    }
+
+  });
+
+  return await Promise.all(balance_queries);
+
+  // return resolved.map((res, idx) => {
+  // 	return {
+  // 		address: list[idx],
+  // 		slow: {
+  // 			unlocked: res[0],
+  // 			total: res[1],
+  // 		},
+  // 	};
+  // });
 };
