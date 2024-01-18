@@ -34,7 +34,7 @@ const main = async () => {
   const summary = reduceBalances(joined);
 
 	// console.log(balances);
-	fs.writeFile("balances.json", JSON.stringify(balances, null, 2), (err) => {
+	fs.writeFile("./data/balances.json", JSON.stringify(balances, null, 2), (err) => {
 		if (err) {
 			console.error("Error writing to file", err);
 		} else {
@@ -43,7 +43,7 @@ const main = async () => {
 	});
 
 
-	fs.writeFile("summary.json", JSON.stringify(summary, null, 2), (err) => {
+	fs.writeFile("./data/summary.json", JSON.stringify(summary, null, 2), (err) => {
 		if (err) {
 			console.error("Error writing to file", err);
 		} else {

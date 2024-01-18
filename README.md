@@ -1,25 +1,28 @@
 # supply
 
+Produces JSON files for balances of restricted accounts and a summary of the network supply.
+
 To install dependencies:
 
 ```bash
+# use bun instead of npm or yarn, it's great
+npm install -g bun
+# install the dependencies
 bun install
 ```
 
 To run:
 
 ```bash
-bun run index.ts
+bun start
 ```
 
 Dev:
 
-```
+```bash
 #format and apply lint with
 bun format
 
-# lint with
+# lint warnings with
 bun lint
 ```
-
-This project was created using `bun init` in bun v1.0.21. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
